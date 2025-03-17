@@ -1,4 +1,4 @@
-                                                                                                            STAYZO APP
+                                    STAYZO APP
 
 Stayzo is a modern and efficient explore with less budget and  built with React.js on the frontend and deployed on an AWS EC2 instance. It provides a seamless experience for users to book accommodations effortlessly.
 
