@@ -1,1 +1,0 @@
-# stayzo_app
