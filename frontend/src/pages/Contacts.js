@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const Contacts = () => {
-  const [contacts, setContacts] = useState([]); // Initialize as an empty array
+  const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -10,14 +10,14 @@ const Contacts = () => {
     const fetchContacts = async () => {
       try {
         const res = await axios.get("http://localhost:5003/api/contacts");
-        console.log("API Response:", res.data); // Debugging
+        console.log("API Full Response:", res);
+        console.log("API Data Type:", typeof res.data);
 
-        // Ensure the response is an array
-        if (Array.isArray(res.data)) {
+        if (res.data && Array.isArray(res.data)) {
           setContacts(res.data);
         } else {
           console.error("Unexpected response format:", res.data);
-          setContacts([]); // Fallback to empty array
+          setContacts([]);
         }
       } catch (err) {
         console.error("Error fetching contacts:", err);
@@ -31,7 +31,7 @@ const Contacts = () => {
   }, []);
 
   return (
-    <div>
+    <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Contacts</h2>
 
       {loading && <p>Loading contacts...</p>}
@@ -40,11 +40,12 @@ const Contacts = () => {
         <p>No contacts available.</p>
       )}
 
-      <ul>
+      <ul className="border rounded-lg p-4 bg-white shadow-md">
         {contacts.map((contact) => (
-          <li key={contact._id} className="p-2 border-b">
+          <li key={contact._id} className="p-2 border-b last:border-b-0">
             <h3 className="text-lg font-semibold">{contact.name}</h3>
-            <p>{contact.email}</p>
+            <p className="text-gray-600">{contact.email}</p>
+            <p className="text-gray-500">{contact.phone}</p>
           </li>
         ))}
       </ul>
