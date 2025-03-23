@@ -27,19 +27,17 @@ const Home = () => {
         style={{ backgroundImage: "url('/hero-bg.jpg')" }}
       >
         <div className="absolute inset-0 bg-black/50"></div>
+
         <motion.div
           className="relative z-10 text-white px-6"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          <h1 className="text-5xl md:text-7xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-teal-400">
+          <h3 className="text-5xl md:text-7xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-teal-400">
             Welcome to Stayzo
-          </h1>
-          <p className="mt-4 text-lg md:text-xl max-w-2xl">
-            Find the best places to stay, dine, and relax with top-tier
-            services.
-          </p>
+          </h3>
+
           <motion.button
             className="mt-6 px-6 py-3 bg-teal-500 text-white font-semibold rounded-full shadow-lg hover:bg-teal-600 transition-all duration-300"
             whileHover={{ scale: 1.1 }}
@@ -81,7 +79,7 @@ const Home = () => {
                 </p>
                 <button
                   className="mt-4 px-5 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-                  onClick={() => navigate(`/booking/${stay.id}`)} // Navigate to Booking page
+                  onClick={() => navigate(`/booking/${stay.id}`)} // Navigate with stay ID
                 >
                   Book Now
                 </button>

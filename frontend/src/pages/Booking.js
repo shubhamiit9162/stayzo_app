@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom"; // Import useParams
 import axios from "axios";
 
 const Booking = () => {
+  const { id } = useParams(); // Get Stay ID from URL
   const [bookings, setBookings] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     date: "",
-    stay: "",
+    stay: id || "", // Set stay ID from URL
   });
 
   // Fetch all bookings from backend
@@ -17,7 +19,7 @@ const Booking = () => {
 
   const fetchBookings = async () => {
     try {
-      const response = await axios.get("http://localhost:5003/api/bookings"); // Adjust API URL if needed
+      const response = await axios.get("http://localhost:5003/api/bookings");
       setBookings(response.data);
     } catch (error) {
       console.error("Error fetching bookings:", error);
@@ -38,17 +40,17 @@ const Booking = () => {
         formData
       );
       setBookings([...bookings, response.data]);
-      setFormData({ name: "", email: "", date: "", stay: "" }); // Reset form
+      setFormData({ name: "", email: "", date: "", stay: id }); // Reset form
     } catch (error) {
       console.error("Error creating booking:", error);
     }
   };
 
   // Cancel booking
-  const handleCancel = async (id) => {
+  const handleCancel = async (bookingId) => {
     try {
-      await axios.delete(`http://localhost:5003/api/bookings/${id}`);
-      setBookings(bookings.filter((booking) => booking._id !== id));
+      await axios.delete(`http://localhost:5003/api/bookings/${bookingId}`);
+      setBookings(bookings.filter((booking) => booking._id !== bookingId));
     } catch (error) {
       console.error("Error cancelling booking:", error);
     }
@@ -94,6 +96,7 @@ const Booking = () => {
           onChange={handleChange}
           required
           className="block w-full p-2 mb-2 border rounded"
+          disabled // Disable editing since stay is selected
         />
         <button
           type="submit"

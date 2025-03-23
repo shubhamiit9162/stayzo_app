@@ -12,6 +12,7 @@ import Stays from "./pages/Stays";
 import Food from "./pages/Food";
 import Contacts from "./pages/Contacts";
 import Booking from "./pages/Booking";
+
 function App() {
   return (
     <Router>
@@ -29,7 +30,8 @@ function App() {
           <Route path="/stays" element={<Stays />} />
           <Route path="/food" element={<Food />} />
           <Route path="/contacts" element={<Contacts />} />
-          <Route path="/booking" element={<Booking />} />
+          <Route path="/booking/:stayId" element={<Booking />} />
+          {/* Updated this to handle dynamic stay IDs */}
         </Routes>
       </div>
     </Router>
