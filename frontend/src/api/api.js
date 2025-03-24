@@ -154,3 +154,57 @@ export const cancelBooking = async (id) => {
     throw error;
   }
 };
+
+/** ✅ Cart APIs */
+export const fetchCart = async () => {
+  try {
+    const response = await API.get("/cart");
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error fetching cart:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+export const addToCart = async (item) => {
+  try {
+    const response = await API.post("/cart", item);
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error adding to cart:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+export const removeFromCart = async (id) => {
+  try {
+    const response = await API.delete(`/cart/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error removing item from cart:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};
+
+/** ✅ Payment APIs */
+export const processPayment = async (paymentData) => {
+  try {
+    const response = await API.post("/payment", paymentData);
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error processing payment:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
+};

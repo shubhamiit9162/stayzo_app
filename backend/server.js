@@ -20,6 +20,13 @@ app.use(cors());
 app.use(express.json());
 app.use(errorHandler);
 
+const cartRoutes = require("./routes/cartRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
+
+// ✅ Use Routes
+app.use("/api/cart", cartRoutes);
+app.use("/api/payment", paymentRoutes);
+
 connectDB();
 
 app.use("/api/auth", authRoutes);

@@ -10,8 +10,7 @@ const Contacts = () => {
     const fetchContacts = async () => {
       try {
         const res = await axios.get("http://localhost:5003/api/contacts");
-        console.log("API Full Response:", res);
-        console.log("API Data Type:", typeof res.data);
+        console.log("API Response Data:", res.data); // Add this log
 
         if (res.data && Array.isArray(res.data)) {
           setContacts(res.data);

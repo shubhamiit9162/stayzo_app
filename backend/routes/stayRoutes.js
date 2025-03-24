@@ -1,28 +1,27 @@
 const express = require("express");
-const {
-  createStay,
-  getAllStays,
-  getStayById,
-  updateStay,
-  deleteStay,
-} = require("../controllers/stayController");
-
-const protect = require("../middleware/authMiddleware");
-
 const router = express.Router();
+const Stay = require("../models/Stay"); // Ensure this model exists
 
-// Debugging: Log requests
-router.use((req, res, next) => {
-  console.log(`Incoming request: ${req.method} ${req.url}`);
-  console.log("Headers:", req.headers);
-  next();
+// ✅ Get all stay places
+router.get("/stay", async (req, res) => {
+  try {
+    console.log("Fetching stay places from database...");
+
+    const stays = await Stay.find();
+    console.log("Stay places fetched:", stays);
+
+    if (!stays.length) {
+      console.log("No stay places found in database.");
+      return res
+        .status(404)
+        .json({ success: false, message: "No stay places found" });
+    }
+
+    res.status(200).json(stays);
+  } catch (error) {
+    console.error("Error fetching stay places:", error);
+    res.status(500).json({ success: false, message: "Server error", error });
+  }
 });
-
-// Routes
-router.post("/", protect, createStay);
-router.get("/", getAllStays);
-router.get("/:id", getStayById);
-router.put("/:id", protect, updateStay);
-router.delete("/:id", protect, deleteStay);
 
 module.exports = router;
