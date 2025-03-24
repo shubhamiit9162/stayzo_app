@@ -5,11 +5,12 @@ import axios from "axios";
 const Booking = () => {
   const { id } = useParams(); // Get Stay ID from URL
   const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     date: "",
-    stay: id || "", // Set stay ID from URL
+    stay: id || "",
   });
 
   // Fetch all bookings from backend
@@ -18,11 +19,17 @@ const Booking = () => {
   }, []);
 
   const fetchBookings = async () => {
+    setLoading(true);
     try {
-      const response = await axios.get("http://localhost:5003/api/bookings");
+      const response = await axios.get(
+        "http://localhost:5003/api/bookings/bookings"
+      );
       setBookings(response.data);
     } catch (error) {
       console.error("Error fetching bookings:", error);
+      alert("Failed to load bookings. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -36,23 +43,34 @@ const Booking = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5003/api/bookings",
+        "http://localhost:5003/api/booking",
         formData
       );
       setBookings([...bookings, response.data]);
       setFormData({ name: "", email: "", date: "", stay: id }); // Reset form
+      alert("Booking successful!");
     } catch (error) {
       console.error("Error creating booking:", error);
+      alert("Failed to create booking. Please try again.");
     }
   };
 
   // Cancel booking
   const handleCancel = async (bookingId) => {
+    const confirmCancel = window.confirm(
+      "Are you sure you want to cancel this booking?"
+    );
+    if (!confirmCancel) return;
+
     try {
-      await axios.delete(`http://localhost:5003/api/bookings/${bookingId}`);
+      await axios.delete(
+        `http://localhost:5003/api/bookings/bookings/${bookingId}`
+      );
       setBookings(bookings.filter((booking) => booking._id !== bookingId));
+      alert("Booking cancelled successfully!");
     } catch (error) {
       console.error("Error cancelling booking:", error);
+      alert("Failed to cancel booking. Please try again.");
     }
   };
 
@@ -93,10 +111,9 @@ const Booking = () => {
           name="stay"
           placeholder="Stay Name"
           value={formData.stay}
-          onChange={handleChange}
           required
           className="block w-full p-2 mb-2 border rounded"
-          disabled // Disable editing since stay is selected
+          disabled
         />
         <button
           type="submit"
@@ -108,27 +125,36 @@ const Booking = () => {
 
       {/* Booking List */}
       <h2 className="text-2xl font-bold mt-6 mb-4">Your Bookings</h2>
-      <ul className="space-y-4">
-        {bookings.map((booking) => (
-          <li
-            key={booking._id}
-            className="p-4 border rounded shadow flex justify-between items-center"
-          >
-            <div>
-              <p className="font-bold">{booking.name}</p>
-              <p>{booking.email}</p>
-              <p>{booking.date}</p>
-              <p>{booking.stay}</p>
-            </div>
-            <button
-              onClick={() => handleCancel(booking._id)}
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
-            >
-              Cancel
-            </button>
-          </li>
-        ))}
-      </ul>
+
+      {loading ? (
+        <p>Loading bookings...</p>
+      ) : (
+        <ul className="space-y-4">
+          {bookings.length === 0 ? (
+            <p>No bookings found.</p>
+          ) : (
+            bookings.map((booking) => (
+              <li
+                key={booking._id}
+                className="p-4 border rounded shadow flex justify-between items-center"
+              >
+                <div>
+                  <p className="font-bold">{booking.name}</p>
+                  <p>{booking.email}</p>
+                  <p>{booking.date}</p>
+                  <p>{booking.stay}</p>
+                </div>
+                <button
+                  onClick={() => handleCancel(booking._id)}
+                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+                >
+                  Cancel
+                </button>
+              </li>
+            ))
+          )}
+        </ul>
+      )}
     </div>
   );
 };

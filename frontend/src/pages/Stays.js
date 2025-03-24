@@ -10,7 +10,7 @@ const Stays = ({ addToCart }) => {
   useEffect(() => {
     const fetchStay = async () => {
       try {
-        const res = await axios.get("http://localhost:5003/api/stays");
+        const res = await axios.get("http://localhost:5003/api/stays/stay");
         console.log("API Response for Stay:", res.data);
 
         if (res.data && Array.isArray(res.data)) {

@@ -21,7 +21,7 @@ export const login = (data) => API.post("/auth/login", data);
 /** Stay APIs */
 export const fetchStays = async () => {
   try {
-    const response = await API.get("/stays");
+    const response = await API.get("/stays/stay");
     return response.data;
   } catch (error) {
     console.error(
@@ -118,7 +118,7 @@ export const markNotificationAsRead = async (id) => {
 /** Booking APIs */
 export const createBooking = async (data) => {
   try {
-    const response = await API.post("/bookings", data);
+    const response = await API.post("/bookings/bookings", data);
     return response.data;
   } catch (error) {
     console.error(
@@ -131,7 +131,7 @@ export const createBooking = async (data) => {
 
 export const fetchBookings = async () => {
   try {
-    const response = await API.get("/bookings");
+    const response = await API.get("/bookings/bookings");
     return response.data;
   } catch (error) {
     console.error(

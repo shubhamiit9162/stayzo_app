@@ -9,7 +9,7 @@ const Food = () => {
   useEffect(() => {
     const fetchFood = async () => {
       try {
-        const res = await axios.get("http://localhost:5003/api/foods");
+        const res = await axios.get("http://localhost:5003/foods");
         console.log("API Response for Food:", res.data);
 
         if (res.data && Array.isArray(res.data)) {

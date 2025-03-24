@@ -21,8 +21,8 @@ router.post("/bookings", async (req, res) => {
     }
 
     const newBooking = new Booking({
-      user: new mongoose.Types.ObjectId(user),
-      stay: new mongoose.Types.ObjectId(stay),
+      user: new mongoose.Types.user(),
+      stay: new mongoose.Types.stay(),
       totalAmount,
       checkInDate,
       checkOutDate,
