@@ -5,8 +5,8 @@ const StayCard = ({ stay, addToCart }) => {
 
   const handleBooking = () => {
     if (typeof addToCart === "function") {
-      addToCart(stay); // ✅ Ensure addToCart is a function before calling it
-      navigate("/cart"); // ✅ Redirect to cart page
+      addToCart(stay);
+      navigate("/cart");
     } else {
       console.error("addToCart is not a function");
     }

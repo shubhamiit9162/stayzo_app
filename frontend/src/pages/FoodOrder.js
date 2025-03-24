@@ -3,14 +3,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 const FoodOrder = () => {
-  const { state } = useLocation(); // Get food details from navigation
-  const { foodId } = useParams(); // Get food ID from URL
+  const { state } = useLocation();
+  const { foodId } = useParams();
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     address: "",
-    food: state?.food?.name || "", // Pre-fill with food name if available
+    food: state?.food?.name || "",
   });
 
   useEffect(() => {
