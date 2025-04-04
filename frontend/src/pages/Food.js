@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Food = () => {
@@ -6,10 +7,12 @@ const Food = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const navigate = useNavigate(); // For redirection
+
   useEffect(() => {
     const fetchFood = async () => {
       try {
-        const res = await axios.get("http://localhost:5003/foods");
+        const res = await axios.get("http://localhost:5003/api/food");
         console.log("API Response for Food:", res.data);
 
         if (res.data && Array.isArray(res.data)) {
@@ -28,6 +31,11 @@ const Food = () => {
 
     fetchFood();
   }, []);
+
+  // Function to handle order button click
+  const handleOrderFood = () => {
+    navigate("/booking"); // Redirect to booking page
+  };
 
   return (
     <div className="container mx-auto px-4 py-6">
@@ -74,6 +82,16 @@ const Food = () => {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* Order Food Button */}
+      <div className="flex justify-center mt-8">
+        <button
+          onClick={handleOrderFood}
+          className="bg-blue-500 text-white px-6 py-2 rounded-lg text-lg font-semibold shadow-md hover:bg-blue-600 transition"
+        >
+          Order Food
+        </button>
       </div>
     </div>
   );

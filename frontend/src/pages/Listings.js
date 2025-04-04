@@ -106,7 +106,11 @@ const Listings = () => {
   }, []);
 
   const handleBooking = (id, type) => {
-    navigate(`/booking/${type}/${id}`); // Redirects to booking page
+    if (!id) {
+      console.error(`Error: Missing ID for ${type} booking.`);
+      return;
+    }
+    navigate(`/booking/${type}/${id}`);
   };
 
   return (

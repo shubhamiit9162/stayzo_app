@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import StayCard from "../components/StayCard"; // ✅ Import StayCard
+import StayCard from "../components/StayCard";
 
 const Stays = ({ addToCart }) => {
   const [stays, setStays] = useState([]);

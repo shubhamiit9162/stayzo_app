@@ -35,7 +35,7 @@ export const fetchStays = async () => {
 /** Food APIs */
 export const fetchFoods = async () => {
   try {
-    const response = await API.get("/foods");
+    const response = await API.get("/food");
     return response.data;
   } catch (error) {
     console.error(

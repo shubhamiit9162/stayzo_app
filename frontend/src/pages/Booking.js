@@ -43,7 +43,7 @@ const Booking = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:5003/api/booking",
+        "http://localhost:5003/api/bookings",
         formData
       );
       setBookings([...bookings, response.data]);
@@ -63,9 +63,7 @@ const Booking = () => {
     if (!confirmCancel) return;
 
     try {
-      await axios.delete(
-        `http://localhost:5003/api/bookings/bookings/${bookingId}`
-      );
+      await axios.delete(`http://localhost:5003/api/bookings/${bookingId}`);
       setBookings(bookings.filter((booking) => booking._id !== bookingId));
       alert("Booking cancelled successfully!");
     } catch (error) {
