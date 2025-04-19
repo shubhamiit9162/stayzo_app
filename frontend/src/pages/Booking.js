@@ -1,44 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; // Import useParams
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import "./booking.css";
+import { useNavigate } from "react-router-dom";
 
 const Booking = () => {
-  const { id } = useParams(); // Get Stay ID from URL
-  const [bookings, setBookings] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    date: "",
-    stay: id || "",
+    user: "",
+    stay: "",
+    checkInDate: "",
+    checkOutDate: "",
+    totalAmount: "",
   });
 
-  // Fetch all bookings from backend
-  useEffect(() => {
-    fetchBookings();
-  }, []);
+  const [bookings, setBookings] = useState([]);
 
-  const fetchBookings = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(
-        "http://localhost:5003/api/bookings/bookings"
-      );
-      setBookings(response.data);
-    } catch (error) {
-      console.error("Error fetching bookings:", error);
-      alert("Failed to load bookings. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Handle input change
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
-  // Handle booking submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -46,113 +25,136 @@ const Booking = () => {
         "http://localhost:5003/api/bookings",
         formData
       );
-      setBookings([...bookings, response.data]);
-      setFormData({ name: "", email: "", date: "", stay: id }); // Reset form
-      alert("Booking successful!");
-    } catch (error) {
-      console.error("Error creating booking:", error);
-      alert("Failed to create booking. Please try again.");
+      alert("Booking created successfully! Redirecting to payment...");
+
+      // Navigate to payment page with booking data
+      navigate("/payment", {
+        state: {
+          bookingId: response.data._id,
+          bookingDetails: response.data,
+          amount: formData.totalAmount,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+      alert("Failed to create booking");
     }
   };
 
-  // Cancel booking
-  const handleCancel = async (bookingId) => {
-    const confirmCancel = window.confirm(
-      "Are you sure you want to cancel this booking?"
-    );
-    if (!confirmCancel) return;
-
+  const fetchBookings = async () => {
     try {
-      await axios.delete(`http://localhost:5003/api/bookings/${bookingId}`);
-      setBookings(bookings.filter((booking) => booking._id !== bookingId));
-      alert("Booking cancelled successfully!");
-    } catch (error) {
-      console.error("Error cancelling booking:", error);
-      alert("Failed to cancel booking. Please try again.");
+      const res = await axios.get("http://localhost:5003/api/bookings");
+      setBookings(res.data);
+    } catch (err) {
+      console.error("Error fetching bookings:", err);
     }
   };
+
+  const cancelBooking = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5003/api/bookings/${id}`);
+      alert("Booking cancelled");
+      fetchBookings();
+    } catch (err) {
+      alert("Error cancelling booking");
+    }
+  };
+
+  useEffect(() => {
+    fetchBookings();
+  }, []);
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Book Your Stay</h2>
-
-      {/* Booking Form */}
-      <form onSubmit={handleSubmit} className="mb-6 p-4 border rounded shadow">
+    <div style={{ padding: "1rem" }}>
+      <h2>Create Booking</h2>
+      <form onSubmit={handleSubmit} style={{ marginBottom: "2rem" }}>
         <input
-          type="text"
-          name="name"
-          placeholder="Your Name"
-          value={formData.name}
+          name="user"
+          placeholder="User ID"
           onChange={handleChange}
+          value={formData.user}
           required
-          className="block w-full p-2 mb-2 border rounded"
         />
         <input
-          type="email"
-          name="email"
-          placeholder="Your Email"
-          value={formData.email}
+          name="stay"
+          placeholder="Stay ID"
           onChange={handleChange}
+          value={formData.stay}
           required
-          className="block w-full p-2 mb-2 border rounded"
         />
         <input
           type="date"
-          name="date"
-          value={formData.date}
+          name="checkInDate"
           onChange={handleChange}
+          value={formData.checkInDate}
           required
-          className="block w-full p-2 mb-2 border rounded"
         />
         <input
-          type="text"
-          name="stay"
-          placeholder="Stay Name"
-          value={formData.stay}
+          type="date"
+          name="checkOutDate"
+          onChange={handleChange}
+          value={formData.checkOutDate}
           required
-          className="block w-full p-2 mb-2 border rounded"
-          disabled
         />
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Book Now
-        </button>
+        <input
+          name="totalAmount"
+          type="number"
+          placeholder="Total Amount"
+          onChange={handleChange}
+          value={formData.totalAmount}
+          required
+        />
+        <button type="submit">Book Now</button>
       </form>
 
-      {/* Booking List */}
-      <h2 className="text-2xl font-bold mt-6 mb-4">Your Bookings</h2>
+      <h2>All Bookings</h2>
+      <ul style={{ listStyle: "none", padding: 0 }}>
+        {bookings.map((booking) => (
+          <li
+            key={booking._id}
+            style={{
+              marginBottom: "1rem",
+              border: "1px solid #ccc",
+              padding: "1rem",
+              borderRadius: "8px",
+            }}
+          >
+            <div>
+              {booking.user?.name && (
+                <>
+                  <strong>User:</strong> {booking.user.name} <br />
+                </>
+              )}
+              {booking.stay?.title && (
+                <>
+                  <strong>Stay:</strong> {booking.stay.title} <br />
+                </>
+              )}
+              <strong>Check-In:</strong>{" "}
+              {new Date(booking.checkInDate).toLocaleDateString()} <br />
+              <strong>Check-Out:</strong>{" "}
+              {new Date(booking.checkOutDate).toLocaleDateString()} <br />
+              <strong>Total:</strong> ₹{booking.totalAmount} <br />
+              <strong>Status:</strong> {booking.status}
+            </div>
 
-      {loading ? (
-        <p>Loading bookings...</p>
-      ) : (
-        <ul className="space-y-4">
-          {bookings.length === 0 ? (
-            <p>No bookings found.</p>
-          ) : (
-            bookings.map((booking) => (
-              <li
-                key={booking._id}
-                className="p-4 border rounded shadow flex justify-between items-center"
-              >
-                <div>
-                  <p className="font-bold">{booking.name}</p>
-                  <p>{booking.email}</p>
-                  <p>{booking.date}</p>
-                  <p>{booking.stay}</p>
-                </div>
-                <button
-                  onClick={() => handleCancel(booking._id)}
-                  className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
-                >
-                  Cancel
-                </button>
-              </li>
-            ))
-          )}
-        </ul>
-      )}
+            <button
+              onClick={() => cancelBooking(booking._id)}
+              style={{
+                marginTop: "0.5rem",
+                backgroundColor: "#f44336",
+                color: "white",
+                border: "none",
+                padding: "0.5rem 1rem",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+            >
+              Cancel Booking
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

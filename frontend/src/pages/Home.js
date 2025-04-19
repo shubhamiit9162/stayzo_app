@@ -5,6 +5,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import "./home.css";
 
 const Home = () => {
   useEffect(() => {
@@ -17,6 +18,39 @@ const Home = () => {
     { id: 1, name: "Luxury Hotel", image: "/stay-1.jpg" },
     { id: 2, name: "Beachside Villa", image: "/stay-2.jpg" },
     { id: 3, name: "Mountain Retreat", image: "/stay-3.jpg" },
+  ];
+
+  const foods = [
+    {
+      id: 1,
+      name: "Pizza",
+      image: "/pizza.jpg",
+      description: "Delicious cheese pizza with toppings.",
+    },
+    {
+      id: 2,
+      name: "Burger",
+      image: "/burger.jpg",
+      description: "Classic beef burger with fresh lettuce.",
+    },
+    {
+      id: 3,
+      name: "Sushi",
+      image: "/sushi.jpg",
+      description: "Fresh sushi rolls with fish and vegetables.",
+    },
+    {
+      id: 4,
+      name: "Pasta",
+      image: "/pasta.jpg",
+      description: "Italian pasta with creamy sauce and herbs.",
+    },
+    {
+      id: 5,
+      name: "Salad",
+      image: "/salad.jpg",
+      description: "Healthy mix of vegetables and dressing.",
+    },
   ];
 
   return (
@@ -34,12 +68,12 @@ const Home = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
-          <h3 className="text-5xl md:text-7xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-teal-400">
+          <h3 className="text-5xl md:text-7xl font-extrabold text-black bg-gradient-to-r from-blue-400 to-teal-400">
             Welcome to Stayzo
           </h3>
 
           <motion.button
-            className="mt-6 px-6 py-3 bg-teal-500 text-white font-semibold rounded-full shadow-lg hover:bg-teal-600 transition-all duration-300"
+            className="mt-6 px-6 py-3 bg-teal-500 text-black font-extrabold rounded-full shadow-lg hover:bg-teal-600 transition-all duration-300"
             whileHover={{ scale: 1.1 }}
           >
             Explore Now
@@ -49,10 +83,10 @@ const Home = () => {
 
       {/* Featured Stays */}
       <section className="py-20 px-6 md:px-20">
-        <h2 className="text-4xl font-bold text-gray-900 text-center">
+        <h2 className="text-4xl font-extrabold text-black -900 text-center">
           Featured Stays
         </h2>
-        <p className="text-gray-600 text-center mt-2">
+        <p className="text-red-600 text-center mt-2">
           Top-rated places curated just for you
         </p>
 
@@ -74,7 +108,7 @@ const Home = () => {
               />
               <div className="p-6">
                 <h3 className="text-2xl font-semibold">{stay.name}</h3>
-                <p className="text-gray-600 mt-2">
+                <p className="text-red-600 mt-2">
                   Experience world-class comfort in the best locations.
                 </p>
                 <button
@@ -90,8 +124,10 @@ const Home = () => {
       </section>
 
       {/* Call to Action */}
-      <section className="bg-gradient-to-r from-blue-600 to-teal-500 py-20 text-white text-center">
-        <h2 className="text-4xl font-bold">Ready for Your Next Adventure?</h2>
+      <section className="bg-gradient-to-r from-blue-600 to-teal-500 py-20 text-black text-center">
+        <h2 className="text-4xl font-extrabold">
+          Ready for Your Next Adventure?
+        </h2>
         <p className="mt-4 text-lg">
           Book your dream stay today and make unforgettable memories.
         </p>

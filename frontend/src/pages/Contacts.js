@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import "./contact.css";
 
 const Contacts = () => {
   const [contacts, setContacts] = useState([]);
@@ -39,12 +40,14 @@ const Contacts = () => {
         <p>No contacts available.</p>
       )}
 
-      <ul className="border rounded-lg p-4 bg-white shadow-md">
+      <ul className="border rounded-lg p-4 bg-black shadow-md">
         {contacts.map((contact) => (
           <li key={contact._id} className="p-2 border-b last:border-b-0">
-            <h3 className="text-lg font-semibold">{contact.name}</h3>
-            <p className="text-gray-600">{contact.email}</p>
-            <p className="text-gray-500">{contact.phone}</p>
+            <h3 className="text-lg  text-red-800 font-semibold">
+              {contact.name}
+            </h3>
+            <p className="text-blue-600">{contact.email}</p>
+            <p className="text-blue-500">{contact.phone}</p>
           </li>
         ))}
       </ul>

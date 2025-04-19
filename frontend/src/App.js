@@ -10,7 +10,7 @@ import Notifications from "./pages/Notifications";
 import Places from "./pages/Places";
 import Explore from "./pages/Explore";
 import Stays from "./pages/Stays";
-import Food from "./pages/Food";
+import Food from "./pages/food";
 import Contacts from "./pages/Contacts";
 import Booking from "./pages/Booking";
 import FoodOrder from "./pages/FoodOrder";

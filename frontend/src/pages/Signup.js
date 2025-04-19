@@ -20,7 +20,9 @@ const Signup = () => {
 
   return (
     <div className="p-6 max-w-md mx-auto bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-bold mb-4 text-center">Sign Up</h2>
+      <h2 className="text-2xl font-bold   text-red-800 mb-4 text-center">
+        Sign Up
+      </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"

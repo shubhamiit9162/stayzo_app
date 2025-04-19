@@ -5,12 +5,12 @@ const connectDB = require("./config/db");
 
 const authRoutes = require("./routes/authRoutes");
 const stayRoutes = require("./routes/stayRoutes");
-const foodRoutes = require("./routes/foodRoutes");
+const foodRoutes = require("./routes/foodroutes");
+const orderRoutes = require("./routes/orderRoutes");
 const contactRoutes = require("./routes/contactRoutes");
 const placeRoutes = require("./routes/placeRoutes");
 const exploreRoutes = require("./routes/exploreRoutes");
 const notificationRoutes = require("./routes/notificationsRoutes");
-const orderRoutes = require("./routes/orderRoutes");
 
 const errorHandler = require("./middleware/errorMiddleware");
 const bookingRoutes = require("./routes/bookingRoutes");
@@ -40,6 +40,8 @@ app.use("/api/explore", exploreRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api", bookingRoutes);
 app.use("/api/food-orders", orderRoutes);
+app.use(foodRoutes);
+app.use(orderRoutes);
 
 const PORT = process.env.PORT || 5003;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));

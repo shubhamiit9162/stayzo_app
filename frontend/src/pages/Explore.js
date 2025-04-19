@@ -56,17 +56,29 @@ const Explore = () => {
               alt={item.name}
               className="w-full h-40 object-cover rounded mb-3"
             />
-            <h3 className="text-xl font-semibold">{item.name}</h3>
-            <p className="text-gray-600 text-sm mb-2">
-              {item.description ? item.description : "No description available"}
-              {/* ✅ Debugging line */}
+            <h3 className="text-xl  text-red-800 font-semibold">{item.name}</h3>
+            <p className="text-blue-600 text-sm mb-2 capitalize">
+              {item.type} • {item.location}
             </p>
-            <div className="flex items-center justify-between text-sm text-gray-500">
-              <span className="bg-gray-100 px-2 py-1 rounded">
-                {item.category || "General"}
+            <p className="text-blue-700 text-sm mb-2">
+              Cost for two: ₹{item.avgCost}
+            </p>
+            <p className="text-blue-700 text-sm mb-2">
+              Best Time: {item.bestTimeToVisit || "Anytime"}
+            </p>
+            <p className="text-blue-600 text-sm mb-2">
+              Features:{" "}
+              {item.specialFeatures?.length
+                ? item.specialFeatures.join(", ")
+                : "None"}
+            </p>
+            <div className="flex items-center justify-between text-sm text-blue-500 mb-2">
+              <span className="bg-blue-100 px-2 py-1 rounded">
+                {item.category || item.type || "General"}
               </span>
               <span>⭐ {item.rating || "No rating"}</span>
             </div>
+            <p className="text-blue-600 text-xs">Contact: {item.contact}</p>
           </div>
         ))}
       </div>
